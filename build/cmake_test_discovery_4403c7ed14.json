@@ -1,0 +1,42 @@
+{
+  "tests": 6,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "TVControllerTest",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "PushOneAndOkChangesChannelToOne",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 21
+        },
+        {
+          "name": "PushOneAndTwoChangesChannelToTwelve",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 28
+        },
+        {
+          "name": "PushFourDigitsChangesChannelByTwoDigitGroups",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 35
+        },
+        {
+          "name": "PushThreeDigitsKeepsLastDigitPendingUntilOk",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 46
+        },
+        {
+          "name": "PushThreeDigitsUsesLastDigitAsFirstDigitOfNextChannel",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 57
+        },
+        {
+          "name": "PushZeroAndSevenChangesChannelToSeven",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 68
+        }
+      ]
+    }
+  ]
+}
