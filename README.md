@@ -60,3 +60,13 @@
         * 채널 15를 시청중, 채널 업을 누르면 4로 변경, 다운을 누르면 14로 변경된다.  
   
 ## Refactoring To-Do list
+
+- [ ] `TVController::pushButton()`의 키별 분기와 `processingCH.clear()` 중복을 줄인다.
+- [ ] 채널 범위(`0`, `99`), 두 자리 입력 길이(`2`) 같은 매직 넘버를 상수로 분리한다.
+- [ ] 채널 값을 문자열과 숫자로 변환하는 로직(`stoi`, `to_string`, `normalizeChannel`)을 한 곳으로 모은다.
+- [ ] 선호 채널과 검색 채널에서 "현재 채널보다 큰 다음 채널, 없으면 처음 채널"을 찾는 순환 탐색 로직을 공통 함수로 분리한다.
+- [ ] 채널 업/다운의 순환 이동 계산을 별도 helper로 분리해 `moveChannelUp()`과 `moveChannelDown()`의 중복을 줄인다.
+- [ ] 숫자 입력 처리, 선호 채널 관리, 검색 채널 관리 책임을 작은 private 함수나 별도 클래스로 나눌 수 있는지 검토한다.
+- [ ] `TVControllerTest`의 반복되는 선호 채널 등록과 검색 채널 설정 코드를 테스트 helper로 정리한다.
+- [ ] `TunerTest`가 Mock 동작 자체를 검증하는 형태인지 확인하고, 실제 과제 의도에 맞는 테스트만 남기도록 정리한다.
+- [ ] `CMakeLists.txt`의 테스트 executable 생성과 coverage 옵션 설정 중복을 helper 함수로 줄인다.
