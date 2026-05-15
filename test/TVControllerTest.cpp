@@ -54,7 +54,8 @@ TEST_F(TVControllerTest, PushThreeDigitsKeepsLastDigitPendingUntilOk) {
   controller.pushButton(remoteKey::KEY_OK);
 }
 
-TEST_F(TVControllerTest, PushThreeDigitsUsesLastDigitAsFirstDigitOfNextChannel) {
+TEST_F(TVControllerTest,
+       PushThreeDigitsUsesLastDigitAsFirstDigitOfNextChannel) {
   InSequence sequence;
   EXPECT_CALL(tuner, setCH("45"));
   EXPECT_CALL(tuner, setCH("67"));

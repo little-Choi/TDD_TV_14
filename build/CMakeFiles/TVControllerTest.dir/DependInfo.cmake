@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "C:/DEV/TDD_TV_14/src/TVController.cpp" "CMakeFiles/TVControllerTest.dir/src/TVController.cpp.obj" "gcc" "CMakeFiles/TVControllerTest.dir/src/TVController.cpp.obj.d"
   "C:/DEV/TDD_TV_14/test/TVControllerTest.cpp" "CMakeFiles/TVControllerTest.dir/test/TVControllerTest.cpp.obj" "gcc" "CMakeFiles/TVControllerTest.dir/test/TVControllerTest.cpp.obj.d"
   )
 
