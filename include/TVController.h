@@ -13,14 +13,18 @@
 
 #include "Tuner.h"
 #include "remoteKey.h"
+#include <set>
 #include <string>
 
 class TVController {
 private:
     Tuner* tuner;
     std::string processingCH;
+    std::set<int> favoriteChannels;
 
     void setTunerCh();
+    void toggleFavoriteChannel();
+    void moveToNextFavoriteChannel();
 
 public:
     explicit TVController(Tuner* tuner);

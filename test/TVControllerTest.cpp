@@ -3,7 +3,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+using ::testing::_;
 using ::testing::InSequence;
+using ::testing::Return;
 
 class MockTunerForController : public Tuner {
 public:
@@ -71,4 +73,59 @@ TEST_F(TVControllerTest, PushZeroAndSevenChangesChannelToSeven) {
 
   controller.pushButton(remoteKey::KEY_0);
   controller.pushButton(remoteKey::KEY_7);
+}
+
+TEST_F(TVControllerTest, PushFavoriteAddStoresCurrentChannelAsFavorite) {
+  EXPECT_CALL(tuner, getCurrentCH())
+      .WillOnce(Return("6"))
+      .WillOnce(Return("0"));
+  EXPECT_CALL(tuner, setCH("6"));
+
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_NEXT_FAVORITE);
+}
+
+TEST_F(TVControllerTest,
+       PushFavoriteAddRemovesCurrentChannelIfAlreadyFavorite) {
+  EXPECT_CALL(tuner, getCurrentCH())
+      .WillOnce(Return("6"))
+      .WillOnce(Return("6"));
+  EXPECT_CALL(tuner, setCH(_)).Times(0);
+
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_NEXT_FAVORITE);
+}
+
+TEST_F(TVControllerTest,
+       PushNextFavoriteChangesToSmallestFavoriteAboveCurrent) {
+  InSequence sequence;
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("1"));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("4"));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("12"));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("56"));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("6"));
+  EXPECT_CALL(tuner, setCH("12"));
+
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_NEXT_FAVORITE);
+}
+
+TEST_F(TVControllerTest, PushNextFavoriteWrapsToSmallestFavorite) {
+  InSequence sequence;
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("1"));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("4"));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("12"));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("56"));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("56"));
+  EXPECT_CALL(tuner, setCH("1"));
+
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
+  controller.pushButton(remoteKey::KEY_NEXT_FAVORITE);
 }

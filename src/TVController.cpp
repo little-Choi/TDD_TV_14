@@ -16,6 +16,8 @@ bool isNumberKey(remoteKey key) {
   case remoteKey::KEY_9:
     return true;
   case remoteKey::KEY_OK:
+  case remoteKey::KEY_FAVORITE_ADD:
+  case remoteKey::KEY_NEXT_FAVORITE:
     return false;
   }
 
@@ -33,6 +35,18 @@ TVController::TVController(Tuner *tuner) : tuner(tuner), processingCH("") {}
 void TVController::pushButton(remoteKey key) {
   if (key == remoteKey::KEY_OK) {
     setTunerCh();
+    return;
+  }
+
+  if (key == remoteKey::KEY_FAVORITE_ADD) {
+    processingCH.clear();
+    toggleFavoriteChannel();
+    return;
+  }
+
+  if (key == remoteKey::KEY_NEXT_FAVORITE) {
+    processingCH.clear();
+    moveToNextFavoriteChannel();
     return;
   }
 
@@ -54,4 +68,31 @@ void TVController::setTunerCh() {
 
   tuner->setCH(normalizeChannel(processingCH));
   processingCH.clear();
+}
+
+void TVController::toggleFavoriteChannel() {
+  int currentChannel = std::stoi(tuner->getCurrentCH());
+  auto found = favoriteChannels.find(currentChannel);
+
+  if (found == favoriteChannels.end()) {
+    favoriteChannels.insert(currentChannel);
+    return;
+  }
+
+  favoriteChannels.erase(found);
+}
+
+void TVController::moveToNextFavoriteChannel() {
+  if (favoriteChannels.empty()) {
+    return;
+  }
+
+  int currentChannel = std::stoi(tuner->getCurrentCH());
+  auto nextChannel = favoriteChannels.upper_bound(currentChannel);
+
+  if (nextChannel == favoriteChannels.end()) {
+    nextChannel = favoriteChannels.begin();
+  }
+
+  tuner->setCH(std::to_string(*nextChannel));
 }

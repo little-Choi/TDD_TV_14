@@ -1,40 +1,60 @@
 {
-  "tests": 6,
+  "tests": 10,
   "name": "AllTests",
   "testsuites": [
     {
       "name": "TVControllerTest",
-      "tests": 6,
+      "tests": 10,
       "testsuite": [
         {
           "name": "PushOneAndOkChangesChannelToOne",
           "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
-          "line": 21
+          "line": 23
         },
         {
           "name": "PushOneAndTwoChangesChannelToTwelve",
           "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
-          "line": 28
+          "line": 30
         },
         {
           "name": "PushFourDigitsChangesChannelByTwoDigitGroups",
           "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
-          "line": 35
+          "line": 37
         },
         {
           "name": "PushThreeDigitsKeepsLastDigitPendingUntilOk",
           "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
-          "line": 46
+          "line": 48
         },
         {
           "name": "PushThreeDigitsUsesLastDigitAsFirstDigitOfNextChannel",
           "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
-          "line": 57
+          "line": 59
         },
         {
           "name": "PushZeroAndSevenChangesChannelToSeven",
           "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
-          "line": 69
+          "line": 71
+        },
+        {
+          "name": "PushFavoriteAddStoresCurrentChannelAsFavorite",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 78
+        },
+        {
+          "name": "PushFavoriteAddRemovesCurrentChannelIfAlreadyFavorite",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 88
+        },
+        {
+          "name": "PushNextFavoriteChangesToSmallestFavoriteAboveCurrent",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 100
+        },
+        {
+          "name": "PushNextFavoriteWrapsToSmallestFavorite",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 117
         }
       ]
     }

@@ -24,7 +24,9 @@ enum class remoteKey {
   KEY_7,
   KEY_8,
   KEY_9,
-  KEY_OK
+  KEY_OK,
+  KEY_FAVORITE_ADD,
+  KEY_NEXT_FAVORITE
 };
 
 inline std::string to_string(remoteKey key) {
@@ -51,6 +53,10 @@ inline std::string to_string(remoteKey key) {
     return "9";
   case remoteKey::KEY_OK:
     return "OK";
+  case remoteKey::KEY_FAVORITE_ADD:
+    return "FAVORITE_ADD";
+  case remoteKey::KEY_NEXT_FAVORITE:
+    return "NEXT_FAVORITE";
   }
   return "";
 }
