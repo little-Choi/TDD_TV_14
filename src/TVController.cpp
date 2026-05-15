@@ -18,6 +18,9 @@ bool isNumberKey(remoteKey key) {
   case remoteKey::KEY_OK:
   case remoteKey::KEY_FAVORITE_ADD:
   case remoteKey::KEY_NEXT_FAVORITE:
+  case remoteKey::KEY_CHANNEL_SEARCH:
+  case remoteKey::KEY_CHANNEL_UP:
+  case remoteKey::KEY_CHANNEL_DOWN:
     return false;
   }
 
@@ -47,6 +50,24 @@ void TVController::pushButton(remoteKey key) {
   if (key == remoteKey::KEY_NEXT_FAVORITE) {
     processingCH.clear();
     moveToNextFavoriteChannel();
+    return;
+  }
+
+  if (key == remoteKey::KEY_CHANNEL_SEARCH) {
+    processingCH.clear();
+    searchChannels();
+    return;
+  }
+
+  if (key == remoteKey::KEY_CHANNEL_UP) {
+    processingCH.clear();
+    moveChannelUp();
+    return;
+  }
+
+  if (key == remoteKey::KEY_CHANNEL_DOWN) {
+    processingCH.clear();
+    moveChannelDown();
     return;
   }
 
@@ -95,4 +116,50 @@ void TVController::moveToNextFavoriteChannel() {
   }
 
   tuner->setCH(std::to_string(*nextChannel));
+}
+
+void TVController::searchChannels() {
+  searchedChannels.clear();
+
+  while (true) {
+    std::string channel = tuner->seekCH();
+    if (channel.empty()) {
+      break;
+    }
+
+    searchedChannels.insert(std::stoi(channel));
+  }
+}
+
+void TVController::moveChannelUp() {
+  int currentChannel = std::stoi(tuner->getCurrentCH());
+
+  if (searchedChannels.empty()) {
+    tuner->setCH(std::to_string((currentChannel + 1) % 100));
+    return;
+  }
+
+  auto nextChannel = searchedChannels.upper_bound(currentChannel);
+  if (nextChannel == searchedChannels.end()) {
+    nextChannel = searchedChannels.begin();
+  }
+
+  tuner->setCH(std::to_string(*nextChannel));
+}
+
+void TVController::moveChannelDown() {
+  int currentChannel = std::stoi(tuner->getCurrentCH());
+
+  if (searchedChannels.empty()) {
+    tuner->setCH(std::to_string((currentChannel + 99) % 100));
+    return;
+  }
+
+  auto previousChannel = searchedChannels.lower_bound(currentChannel);
+  if (previousChannel == searchedChannels.begin()) {
+    previousChannel = searchedChannels.end();
+  }
+
+  --previousChannel;
+  tuner->setCH(std::to_string(*previousChannel));
 }

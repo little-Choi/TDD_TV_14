@@ -21,10 +21,14 @@ private:
     Tuner* tuner;
     std::string processingCH;
     std::set<int> favoriteChannels;
+    std::set<int> searchedChannels;
 
     void setTunerCh();
     void toggleFavoriteChannel();
     void moveToNextFavoriteChannel();
+    void searchChannels();
+    void moveChannelUp();
+    void moveChannelDown();
 
 public:
     explicit TVController(Tuner* tuner);
