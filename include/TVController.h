@@ -13,33 +13,27 @@
 
 #include "Tuner.h"
 #include "remoteKey.h"
+#include <set>
 #include <string>
-#include <iostream>
 
 class TVController {
 private:
     Tuner* tuner;
     std::string processingCH;
+    std::set<int> favoriteChannels;
+    std::set<int> searchedChannels;
 
-    void setTunerCh() {
-        // 로그는 테스트의 결과가 절대 아닙니다. 로그가 있는 것을 테스트로 간주하지 마시기 바랍니다.
-        std::cout << "현재 설정하는 채널 : " << processingCH << std::endl;
-        // tuner->setCH(processingCH);
-    }
+    void setTunerCh();
+    void toggleFavoriteChannel();
+    void moveToNextFavoriteChannel();
+    void searchChannels();
+    void moveChannelUp();
+    void moveChannelDown();
 
 public:
-    explicit TVController(Tuner* tuner) : tuner(tuner), processingCH("") {}
+    explicit TVController(Tuner* tuner);
 
-    void pushButton(remoteKey key) {
-        switch (key) {
-            case remoteKey::KEY_1:
-                processingCH += to_string(key);
-                break;
-            case remoteKey::KEY_OK:
-                setTunerCh();
-                break;
-        }
-    }
+    void pushButton(remoteKey key);
 };
 
 #endif // TV_CONTROLLER_H
