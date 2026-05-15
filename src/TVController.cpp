@@ -2,6 +2,10 @@
 
 namespace {
 
+constexpr int kMinChannel = 0;
+constexpr int kMaxChannel = 99;
+constexpr std::string::size_type kChannelInputDigits = 2;
+
 bool isNumberKey(remoteKey key) {
   switch (key) {
   case remoteKey::KEY_0:
@@ -79,7 +83,7 @@ bool TVController::handleCommandKey(remoteKey key) {
 void TVController::handleNumberKey(remoteKey key) {
   processingCH += to_string(key);
 
-  if (processingCH.length() == 2) {
+  if (processingCH.length() == kChannelInputDigits) {
     setTunerCh();
   }
 }
@@ -137,7 +141,9 @@ void TVController::moveChannelUp() {
   int currentChannel = std::stoi(tuner->getCurrentCH());
 
   if (searchedChannels.empty()) {
-    tuner->setCH(std::to_string((currentChannel + 1) % 100));
+    int nextChannel =
+        currentChannel == kMaxChannel ? kMinChannel : currentChannel + 1;
+    tuner->setCH(std::to_string(nextChannel));
     return;
   }
 
@@ -153,7 +159,9 @@ void TVController::moveChannelDown() {
   int currentChannel = std::stoi(tuner->getCurrentCH());
 
   if (searchedChannels.empty()) {
-    tuner->setCH(std::to_string((currentChannel + 99) % 100));
+    int previousChannel =
+        currentChannel == kMinChannel ? kMaxChannel : currentChannel - 1;
+    tuner->setCH(std::to_string(previousChannel));
     return;
   }
 
