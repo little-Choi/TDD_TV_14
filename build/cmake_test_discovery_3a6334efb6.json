@@ -1,0 +1,17 @@
+{
+  "tests": 1,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "TVControllerApprovalTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "RemoteControlBehaviorMatchesApprovedOutput",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerApprovalTest.cpp",
+          "line": 176
+        }
+      ]
+    }
+  ]
+}

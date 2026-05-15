@@ -1,0 +1,98 @@
+Scenario: single digit confirmed
+Initial channel: 0
+Input: 1 OK
+Calls:
+  setCH(1)
+Final channel: 1
+
+Scenario: two digit channel
+Initial channel: 0
+Input: 1 2
+Calls:
+  setCH(12)
+Final channel: 12
+
+Scenario: four digits grouped by pairs
+Initial channel: 0
+Input: 1 2 3 4
+Calls:
+  setCH(12)
+  setCH(34)
+Final channel: 34
+
+Scenario: third digit remains pending until OK
+Initial channel: 0
+Input: 4 5 6 OK
+Calls:
+  setCH(45)
+  setCH(6)
+Final channel: 6
+
+Scenario: leading zero normalizes channel
+Initial channel: 0
+Input: 0 7
+Calls:
+  setCH(7)
+Final channel: 7
+
+Scenario: favorite channels rotate to next higher channel
+Initial channel: 0
+Input: 0 1 FAVORITE_ADD 0 4 FAVORITE_ADD 1 2 FAVORITE_ADD 5 6 FAVORITE_ADD 0 6 NEXT_FAVORITE
+Calls:
+  setCH(1)
+  getCurrentCH() -> 1
+  setCH(4)
+  getCurrentCH() -> 4
+  setCH(12)
+  getCurrentCH() -> 12
+  setCH(56)
+  getCurrentCH() -> 56
+  setCH(6)
+  getCurrentCH() -> 6
+  setCH(12)
+Final channel: 12
+
+Scenario: searched channels guide channel up
+Initial channel: 0
+Seek results: 4 6 14 <none>
+Input: CHANNEL_SEARCH 0 6 CHANNEL_UP
+Calls:
+  seekCH() -> 4
+  seekCH() -> 6
+  seekCH() -> 14
+  seekCH() -> <none>
+  setCH(6)
+  getCurrentCH() -> 6
+  setCH(14)
+Final channel: 14
+
+Scenario: searched channels guide channel down
+Initial channel: 0
+Seek results: 4 6 14 <none>
+Input: CHANNEL_SEARCH 1 5 CHANNEL_DOWN
+Calls:
+  seekCH() -> 4
+  seekCH() -> 6
+  seekCH() -> 14
+  seekCH() -> <none>
+  setCH(15)
+  getCurrentCH() -> 15
+  setCH(14)
+Final channel: 14
+
+Scenario: channel up wraps from max without search
+Initial channel: 99
+Input: CHANNEL_UP
+Calls:
+  getCurrentCH() -> 99
+  setCH(0)
+Final channel: 0
+
+Scenario: channel down wraps from zero without search
+Initial channel: 0
+Input: CHANNEL_DOWN
+Calls:
+  getCurrentCH() -> 0
+  setCH(99)
+Final channel: 99
+

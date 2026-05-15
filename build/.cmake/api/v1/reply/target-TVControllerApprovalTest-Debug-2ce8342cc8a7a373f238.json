@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "TunerTest.exe"
+			"path" : "TVControllerApprovalTest.exe"
 		},
 		{
-			"path" : "TunerTest.pdb"
+			"path" : "TVControllerApprovalTest.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -25,7 +25,7 @@
 		[
 			"CMakeLists.txt",
 			"build/_deps/googletest-src/googletest/CMakeLists.txt",
-			"C:/mingw64/share/cmake-4.3/Modules/GoogleTest.cmake"
+			"C:/Program Files/CMake/share/cmake-4.3/Modules/GoogleTest.cmake"
 		],
 		"nodes" : 
 		[
@@ -35,19 +35,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 22,
+				"line" : 28,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 30,
+				"line" : 37,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 23,
+				"line" : 29,
 				"parent" : 0
 			},
 			{
@@ -62,7 +62,7 @@
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 36,
+				"line" : 43,
 				"parent" : 0
 			},
 			{
@@ -74,7 +74,7 @@
 			{
 				"command" : 5,
 				"file" : 0,
-				"line" : 29,
+				"line" : 36,
 				"parent" : 0
 			},
 			{
@@ -95,10 +95,6 @@
 		{
 			"backtrace" : 3,
 			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "gmock::@0f7bb11d64f3678238c7"
 		}
 	],
 	"compileGroups" : 
@@ -129,16 +125,6 @@
 					"backtrace" : 3,
 					"isSystem" : true,
 					"path" : "C:/DEV/TDD_TV_14/build/_deps/googletest-src/googletest"
-				},
-				{
-					"backtrace" : 3,
-					"isSystem" : true,
-					"path" : "C:/DEV/TDD_TV_14/build/_deps/googletest-src/googlemock/include"
-				},
-				{
-					"backtrace" : 3,
-					"isSystem" : true,
-					"path" : "C:/DEV/TDD_TV_14/build/_deps/googletest-src/googlemock"
 				}
 			],
 			"language" : "CXX",
@@ -152,16 +138,13 @@
 			},
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				1
 			]
 		}
 	],
 	"dependencies" : 
 	[
-		{
-			"backtrace" : 3,
-			"id" : "gmock::@0f7bb11d64f3678238c7"
-		},
 		{
 			"backtrace" : 3,
 			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
@@ -171,7 +154,7 @@
 			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
 		}
 	],
-	"id" : "TunerTest::@6890427a1f51a3e7e1df",
+	"id" : "TVControllerApprovalTest::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -191,11 +174,6 @@
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 3,
-				"fragment" : "lib\\libgmock.a",
-				"role" : "libraries"
-			},
-			{
 				"backtrace" : 5,
 				"fragment" : "lib\\libgtest.a",
 				"role" : "libraries"
@@ -212,19 +190,15 @@
 		{
 			"backtrace" : 3,
 			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "gmock::@0f7bb11d64f3678238c7"
 		}
 	],
-	"name" : "TunerTest",
-	"nameOnDisk" : "TunerTest.exe",
+	"name" : "TVControllerApprovalTest",
+	"nameOnDisk" : "TVControllerApprovalTest.exe",
 	"orderDependencies" : 
 	[
 		{
 			"backtrace" : 7,
-			"id" : "TunerTest::@6890427a1f51a3e7e1df"
+			"id" : "TVControllerApprovalTest::@6890427a1f51a3e7e1df"
 		}
 	],
 	"paths" : 
@@ -238,7 +212,8 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				1
 			]
 		}
 	],
@@ -247,7 +222,13 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "test/TunerTest.cpp",
+			"path" : "test/TVControllerApprovalTest.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/TVController.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

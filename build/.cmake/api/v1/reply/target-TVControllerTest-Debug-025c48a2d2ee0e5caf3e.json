@@ -25,7 +25,7 @@
 		[
 			"CMakeLists.txt",
 			"build/_deps/googletest-src/googletest/CMakeLists.txt",
-			"C:/mingw64/share/cmake-4.3/Modules/GoogleTest.cmake"
+			"C:/Program Files/CMake/share/cmake-4.3/Modules/GoogleTest.cmake"
 		],
 		"nodes" : 
 		[
@@ -41,7 +41,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 32,
+				"line" : 35,
 				"parent" : 0
 			},
 			{
@@ -62,7 +62,7 @@
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 37,
+				"line" : 42,
 				"parent" : 0
 			},
 			{
@@ -74,7 +74,7 @@
 			{
 				"command" : 5,
 				"file" : 0,
-				"line" : 31,
+				"line" : 34,
 				"parent" : 0
 			},
 			{
