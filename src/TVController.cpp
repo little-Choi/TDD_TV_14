@@ -31,8 +31,12 @@ bool isNumberKey(remoteKey key) {
   return false;
 }
 
+int toChannelNumber(const std::string &channel) { return std::stoi(channel); }
+
+std::string toChannelText(int channel) { return std::to_string(channel); }
+
 std::string normalizeChannel(const std::string &channel) {
-  return std::to_string(std::stoi(channel));
+  return toChannelText(toChannelNumber(channel));
 }
 
 } // namespace
@@ -98,7 +102,7 @@ void TVController::setTunerCh() {
 }
 
 void TVController::toggleFavoriteChannel() {
-  int currentChannel = std::stoi(tuner->getCurrentCH());
+  int currentChannel = toChannelNumber(tuner->getCurrentCH());
   auto found = favoriteChannels.find(currentChannel);
 
   if (found == favoriteChannels.end()) {
@@ -114,14 +118,14 @@ void TVController::moveToNextFavoriteChannel() {
     return;
   }
 
-  int currentChannel = std::stoi(tuner->getCurrentCH());
+  int currentChannel = toChannelNumber(tuner->getCurrentCH());
   auto nextChannel = favoriteChannels.upper_bound(currentChannel);
 
   if (nextChannel == favoriteChannels.end()) {
     nextChannel = favoriteChannels.begin();
   }
 
-  tuner->setCH(std::to_string(*nextChannel));
+  tuner->setCH(toChannelText(*nextChannel));
 }
 
 void TVController::searchChannels() {
@@ -133,17 +137,17 @@ void TVController::searchChannels() {
       break;
     }
 
-    searchedChannels.insert(std::stoi(channel));
+    searchedChannels.insert(toChannelNumber(channel));
   }
 }
 
 void TVController::moveChannelUp() {
-  int currentChannel = std::stoi(tuner->getCurrentCH());
+  int currentChannel = toChannelNumber(tuner->getCurrentCH());
 
   if (searchedChannels.empty()) {
     int nextChannel =
         currentChannel == kMaxChannel ? kMinChannel : currentChannel + 1;
-    tuner->setCH(std::to_string(nextChannel));
+    tuner->setCH(toChannelText(nextChannel));
     return;
   }
 
@@ -152,16 +156,16 @@ void TVController::moveChannelUp() {
     nextChannel = searchedChannels.begin();
   }
 
-  tuner->setCH(std::to_string(*nextChannel));
+  tuner->setCH(toChannelText(*nextChannel));
 }
 
 void TVController::moveChannelDown() {
-  int currentChannel = std::stoi(tuner->getCurrentCH());
+  int currentChannel = toChannelNumber(tuner->getCurrentCH());
 
   if (searchedChannels.empty()) {
     int previousChannel =
         currentChannel == kMinChannel ? kMaxChannel : currentChannel - 1;
-    tuner->setCH(std::to_string(previousChannel));
+    tuner->setCH(toChannelText(previousChannel));
     return;
   }
 
@@ -171,5 +175,5 @@ void TVController::moveChannelDown() {
   }
 
   --previousChannel;
-  tuner->setCH(std::to_string(*previousChannel));
+  tuner->setCH(toChannelText(*previousChannel));
 }
