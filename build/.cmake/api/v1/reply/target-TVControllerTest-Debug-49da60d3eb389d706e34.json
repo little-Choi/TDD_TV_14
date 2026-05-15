@@ -14,9 +14,11 @@
 		"commands" : 
 		[
 			"add_executable",
+			"target_link_options",
 			"target_link_libraries",
 			"add_custom_command",
 			"gtest_discover_tests",
+			"target_compile_options",
 			"include_directories"
 		],
 		"files" : 
@@ -33,40 +35,52 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 24,
+				"line" : 25,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 25,
+				"line" : 32,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 26,
 				"parent" : 0
 			},
 			{
 				"file" : 1
 			},
 			{
-				"command" : 1,
+				"command" : 2,
 				"file" : 1,
 				"line" : 153,
-				"parent" : 3
-			},
-			{
-				"command" : 3,
-				"file" : 0,
-				"line" : 29,
-				"parent" : 0
-			},
-			{
-				"command" : 2,
-				"file" : 2,
-				"line" : 687,
-				"parent" : 5
+				"parent" : 4
 			},
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 17,
+				"line" : 37,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 2,
+				"line" : 687,
+				"parent" : 6
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 31,
+				"parent" : 0
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 18,
 				"parent" : 0
 			}
 		]
@@ -79,11 +93,11 @@
 	"compileDependencies" : 
 	[
 		{
-			"backtrace" : 2,
+			"backtrace" : 3,
 			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
 		},
 		{
-			"backtrace" : 2,
+			"backtrace" : 3,
 			"id" : "gmock::@0f7bb11d64f3678238c7"
 		}
 	],
@@ -94,31 +108,35 @@
 			[
 				{
 					"fragment" : "-g -std=gnu++17"
+				},
+				{
+					"backtrace" : 8,
+					"fragment" : "--coverage"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 7,
+					"backtrace" : 9,
 					"path" : "C:/DEV/TDD_TV_14/include"
 				},
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"isSystem" : true,
 					"path" : "C:/DEV/TDD_TV_14/build/_deps/googletest-src/googletest/include"
 				},
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"isSystem" : true,
 					"path" : "C:/DEV/TDD_TV_14/build/_deps/googletest-src/googletest"
 				},
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"isSystem" : true,
 					"path" : "C:/DEV/TDD_TV_14/build/_deps/googletest-src/googlemock/include"
 				},
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"isSystem" : true,
 					"path" : "C:/DEV/TDD_TV_14/build/_deps/googletest-src/googlemock"
 				}
@@ -128,7 +146,7 @@
 			{
 				"backtraces" : 
 				[
-					2
+					3
 				],
 				"standard" : "17"
 			},
@@ -142,16 +160,16 @@
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 2,
+			"backtrace" : 3,
 			"id" : "gmock::@0f7bb11d64f3678238c7"
 		},
 		{
-			"backtrace" : 2,
-			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
+			"backtrace" : 3,
+			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
 		},
 		{
-			"backtrace" : 2,
-			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
+			"backtrace" : 3,
+			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
 		}
 	],
 	"id" : "TVControllerTest::@6890427a1f51a3e7e1df",
@@ -165,16 +183,21 @@
 			},
 			{
 				"backtrace" : 2,
+				"fragment" : "--coverage",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
 				"fragment" : "lib\\libgtest_main.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
 				"fragment" : "lib\\libgmock.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 4,
+				"backtrace" : 5,
 				"fragment" : "lib\\libgtest.a",
 				"role" : "libraries"
 			},
@@ -188,11 +211,11 @@
 	"linkLibraries" : 
 	[
 		{
-			"backtrace" : 2,
+			"backtrace" : 3,
 			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
 		},
 		{
-			"backtrace" : 2,
+			"backtrace" : 3,
 			"id" : "gmock::@0f7bb11d64f3678238c7"
 		}
 	],
@@ -201,7 +224,7 @@
 	"orderDependencies" : 
 	[
 		{
-			"backtrace" : 6,
+			"backtrace" : 7,
 			"id" : "TVControllerTest::@6890427a1f51a3e7e1df"
 		}
 	],

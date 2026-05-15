@@ -14,6 +14,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+
 include_directories(include)
 
 enable_testing()
@@ -23,6 +24,13 @@ target_link_libraries(TunerTest GTest::gtest_main GTest::gmock)
 
 add_executable(TVControllerTest test/TVControllerTest.cpp src/TVController.cpp)
 target_link_libraries(TVControllerTest GTest::gtest_main GTest::gmock)
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(TunerTest PRIVATE --coverage)
+    target_link_options(TunerTest PRIVATE --coverage)
+    target_compile_options(TVControllerTest PRIVATE --coverage)
+    target_link_options(TVControllerTest PRIVATE --coverage)
+endif()
 
 include(GoogleTest)
 gtest_discover_tests(TunerTest)
