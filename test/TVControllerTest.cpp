@@ -129,3 +129,87 @@ TEST_F(TVControllerTest, PushNextFavoriteWrapsToSmallestFavorite) {
   controller.pushButton(remoteKey::KEY_FAVORITE_ADD);
   controller.pushButton(remoteKey::KEY_NEXT_FAVORITE);
 }
+
+TEST_F(TVControllerTest, PushChannelUpWithoutSearchedChannelsIncrementsChannel) {
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("6"));
+  EXPECT_CALL(tuner, setCH("7"));
+
+  controller.pushButton(remoteKey::KEY_CHANNEL_UP);
+}
+
+TEST_F(TVControllerTest, PushChannelDownWithoutSearchedChannelsDecrementsChannel) {
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("6"));
+  EXPECT_CALL(tuner, setCH("5"));
+
+  controller.pushButton(remoteKey::KEY_CHANNEL_DOWN);
+}
+
+TEST_F(TVControllerTest, PushChannelUpWithoutSearchedChannelsWrapsToZero) {
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("99"));
+  EXPECT_CALL(tuner, setCH("0"));
+
+  controller.pushButton(remoteKey::KEY_CHANNEL_UP);
+}
+
+TEST_F(TVControllerTest, PushChannelDownWithoutSearchedChannelsWrapsToNinetyNine) {
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("0"));
+  EXPECT_CALL(tuner, setCH("99"));
+
+  controller.pushButton(remoteKey::KEY_CHANNEL_DOWN);
+}
+
+TEST_F(TVControllerTest, PushChannelUpWithSearchedChannelsMovesToNextStored) {
+  InSequence sequence;
+  EXPECT_CALL(tuner, seekCH())
+      .WillOnce(Return("4"))
+      .WillOnce(Return("6"))
+      .WillOnce(Return("14"))
+      .WillOnce(Return(""));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("6"));
+  EXPECT_CALL(tuner, setCH("14"));
+
+  controller.pushButton(remoteKey::KEY_CHANNEL_SEARCH);
+  controller.pushButton(remoteKey::KEY_CHANNEL_UP);
+}
+
+TEST_F(TVControllerTest, PushChannelDownWithSearchedChannelsMovesToPreviousStored) {
+  InSequence sequence;
+  EXPECT_CALL(tuner, seekCH())
+      .WillOnce(Return("4"))
+      .WillOnce(Return("6"))
+      .WillOnce(Return("14"))
+      .WillOnce(Return(""));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("6"));
+  EXPECT_CALL(tuner, setCH("4"));
+
+  controller.pushButton(remoteKey::KEY_CHANNEL_SEARCH);
+  controller.pushButton(remoteKey::KEY_CHANNEL_DOWN);
+}
+
+TEST_F(TVControllerTest, PushChannelUpWithSearchedChannelsWrapsToSmallest) {
+  InSequence sequence;
+  EXPECT_CALL(tuner, seekCH())
+      .WillOnce(Return("4"))
+      .WillOnce(Return("6"))
+      .WillOnce(Return("14"))
+      .WillOnce(Return(""));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("15"));
+  EXPECT_CALL(tuner, setCH("4"));
+
+  controller.pushButton(remoteKey::KEY_CHANNEL_SEARCH);
+  controller.pushButton(remoteKey::KEY_CHANNEL_UP);
+}
+
+TEST_F(TVControllerTest, PushChannelDownWithSearchedChannelsWrapsToLargest) {
+  InSequence sequence;
+  EXPECT_CALL(tuner, seekCH())
+      .WillOnce(Return("4"))
+      .WillOnce(Return("6"))
+      .WillOnce(Return("14"))
+      .WillOnce(Return(""));
+  EXPECT_CALL(tuner, getCurrentCH()).WillOnce(Return("15"));
+  EXPECT_CALL(tuner, setCH("14"));
+
+  controller.pushButton(remoteKey::KEY_CHANNEL_SEARCH);
+  controller.pushButton(remoteKey::KEY_CHANNEL_DOWN);
+}

@@ -1,10 +1,10 @@
 {
-  "tests": 10,
+  "tests": 18,
   "name": "AllTests",
   "testsuites": [
     {
       "name": "TVControllerTest",
-      "tests": 10,
+      "tests": 18,
       "testsuite": [
         {
           "name": "PushOneAndOkChangesChannelToOne",
@@ -55,6 +55,46 @@
           "name": "PushNextFavoriteWrapsToSmallestFavorite",
           "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
           "line": 117
+        },
+        {
+          "name": "PushChannelUpWithoutSearchedChannelsIncrementsChannel",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 133
+        },
+        {
+          "name": "PushChannelDownWithoutSearchedChannelsDecrementsChannel",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 140
+        },
+        {
+          "name": "PushChannelUpWithoutSearchedChannelsWrapsToZero",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 147
+        },
+        {
+          "name": "PushChannelDownWithoutSearchedChannelsWrapsToNinetyNine",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 154
+        },
+        {
+          "name": "PushChannelUpWithSearchedChannelsMovesToNextStored",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 161
+        },
+        {
+          "name": "PushChannelDownWithSearchedChannelsMovesToPreviousStored",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 175
+        },
+        {
+          "name": "PushChannelUpWithSearchedChannelsWrapsToSmallest",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 189
+        },
+        {
+          "name": "PushChannelDownWithSearchedChannelsWrapsToLargest",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerTest.cpp",
+          "line": 203
         }
       ]
     }

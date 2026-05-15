@@ -26,7 +26,10 @@ enum class remoteKey {
   KEY_9,
   KEY_OK,
   KEY_FAVORITE_ADD,
-  KEY_NEXT_FAVORITE
+  KEY_NEXT_FAVORITE,
+  KEY_CHANNEL_SEARCH,
+  KEY_CHANNEL_UP,
+  KEY_CHANNEL_DOWN
 };
 
 inline std::string to_string(remoteKey key) {
@@ -57,6 +60,12 @@ inline std::string to_string(remoteKey key) {
     return "FAVORITE_ADD";
   case remoteKey::KEY_NEXT_FAVORITE:
     return "NEXT_FAVORITE";
+  case remoteKey::KEY_CHANNEL_SEARCH:
+    return "CHANNEL_SEARCH";
+  case remoteKey::KEY_CHANNEL_UP:
+    return "CHANNEL_UP";
+  case remoteKey::KEY_CHANNEL_DOWN:
+    return "CHANNEL_DOWN";
   }
   return "";
 }
