@@ -61,7 +61,7 @@
   
 ## Refactoring To-Do list
 
-- [ ] `TVController::pushButton()`의 키별 분기와 `processingCH.clear()` 중복을 줄인다.
+- [x] `TVController::pushButton()`의 키별 분기와 `processingCH.clear()` 중복을 줄인다.
 - [ ] 채널 범위(`0`, `99`), 두 자리 입력 길이(`2`) 같은 매직 넘버를 상수로 분리한다.
 - [ ] 채널 값을 문자열과 숫자로 변환하는 로직(`stoi`, `to_string`, `normalizeChannel`)을 한 곳으로 모은다.
 - [ ] 선호 채널과 검색 채널에서 "현재 채널보다 큰 다음 채널, 없으면 처음 채널"을 찾는 순환 탐색 로직을 공통 함수로 분리한다.

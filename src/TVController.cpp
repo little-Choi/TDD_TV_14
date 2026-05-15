@@ -36,45 +36,47 @@ std::string normalizeChannel(const std::string &channel) {
 TVController::TVController(Tuner *tuner) : tuner(tuner), processingCH("") {}
 
 void TVController::pushButton(remoteKey key) {
+  if (isNumberKey(key)) {
+    handleNumberKey(key);
+    return;
+  }
+
+  handleCommandKey(key);
+}
+
+bool TVController::handleCommandKey(remoteKey key) {
   if (key == remoteKey::KEY_OK) {
     setTunerCh();
-    return;
+    return true;
   }
 
-  if (key == remoteKey::KEY_FAVORITE_ADD) {
-    processingCH.clear();
-    toggleFavoriteChannel();
-    return;
+  void (TVController::*command)() = nullptr;
+  switch (key) {
+  case remoteKey::KEY_FAVORITE_ADD:
+    command = &TVController::toggleFavoriteChannel;
+    break;
+  case remoteKey::KEY_NEXT_FAVORITE:
+    command = &TVController::moveToNextFavoriteChannel;
+    break;
+  case remoteKey::KEY_CHANNEL_SEARCH:
+    command = &TVController::searchChannels;
+    break;
+  case remoteKey::KEY_CHANNEL_UP:
+    command = &TVController::moveChannelUp;
+    break;
+  case remoteKey::KEY_CHANNEL_DOWN:
+    command = &TVController::moveChannelDown;
+    break;
+  default:
+    return false;
   }
 
-  if (key == remoteKey::KEY_NEXT_FAVORITE) {
-    processingCH.clear();
-    moveToNextFavoriteChannel();
-    return;
-  }
+  processingCH.clear();
+  (this->*command)();
+  return true;
+}
 
-  if (key == remoteKey::KEY_CHANNEL_SEARCH) {
-    processingCH.clear();
-    searchChannels();
-    return;
-  }
-
-  if (key == remoteKey::KEY_CHANNEL_UP) {
-    processingCH.clear();
-    moveChannelUp();
-    return;
-  }
-
-  if (key == remoteKey::KEY_CHANNEL_DOWN) {
-    processingCH.clear();
-    moveChannelDown();
-    return;
-  }
-
-  if (!isNumberKey(key)) {
-    return;
-  }
-
+void TVController::handleNumberKey(remoteKey key) {
   processingCH += to_string(key);
 
   if (processingCH.length() == 2) {
