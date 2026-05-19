@@ -1,0 +1,11 @@
+# Given: initial channel 0
+# When: press 4,5,6 then UP from channel 6
+> 4
+> 5
+> 6
+# Final: channel=45
+> UP
+# Final: channel=7
+--- stdout ---
+현재 설정하는 채널 : 45
+현재 설정하는 채널 : 7

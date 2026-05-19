@@ -1,0 +1,6 @@
+# Given: channel 0
+# When: UP to 1
+> UP
+# Final: channel=1
+--- stdout ---
+현재 설정하는 채널 : 1

@@ -1,0 +1,10 @@
+# Given: favorites 1,4,12,56
+> FAVORITE_ADD
+> FAVORITE_ADD
+> FAVORITE_ADD
+> FAVORITE_ADD
+# When: FAVORITE_NEXT
+> FAVORITE_NEXT
+# Final: channel=12
+--- stdout ---
+현재 설정하는 채널 : 12

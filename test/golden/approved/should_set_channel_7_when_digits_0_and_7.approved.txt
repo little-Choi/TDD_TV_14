@@ -1,0 +1,7 @@
+# Given: initial channel 0
+# When: press 0, 7
+> 0
+> 7
+# Final: channel=7
+--- stdout ---
+현재 설정하는 채널 : 7

@@ -1,0 +1,7 @@
+# Given: initial channel 0
+# When: press 1, 2
+> 1
+> 2
+# Final: channel=12
+--- stdout ---
+현재 설정하는 채널 : 12

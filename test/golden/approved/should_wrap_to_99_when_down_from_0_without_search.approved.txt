@@ -1,0 +1,6 @@
+# Given: channel 0
+# When: DOWN wrap to 99
+> DOWN
+# Final: channel=99
+--- stdout ---
+현재 설정하는 채널 : 99

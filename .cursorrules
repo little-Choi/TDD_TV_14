@@ -1,0 +1,45 @@
+# TDD TV Project Rules
+
+You are assisting a legacy-code QA/refactoring workflow for this C++17 TDD TV project.
+
+## Project Stack
+
+- Use C++17 with CMake.
+- Use Google Test for unit tests.
+- Use lcov when checking or improving coverage.
+- Keep implementations compatible with the existing header/source/test layout.
+
+## Domain Invariants
+
+- Absolute rule: valid TV channels are integers from 0 to 99 only.
+- Channel up from 99 must wrap to 0.
+- Channel down from 0 must wrap to 99.
+- Do not introduce behavior that permits channels below 0 or above 99.
+- Treat the vendor `Tuner` as an external dependency; test controller logic with Fake or Mock objects instead of testing vendor internals.
+
+## Testing Rules
+
+- Write tests in Given-When-Then style, either through test names, comments, or clear arrange-act-assert structure.
+- Name test methods in the `should_[result]_when_[condition]` format.
+- Prefer `TEST_F` when tests share fixture setup, mocks, fakes, or repeated controller state.
+- Include boundary-value tests for channel 0 and channel 99 whenever channel navigation or validation logic changes.
+- Add or update tests before changing production behavior.
+- Keep tests focused on observable behavior: selected channel, tuner interaction, favorite-channel state, and scanned-channel navigation.
+
+## Code Rules
+
+- Keep each function at 20 lines or fewer.
+
+## Refactoring Rules
+
+- Refactor only while the test suite is Green.
+- If tests are failing, first identify whether the failure is pre-existing or caused by the current change.
+- Keep refactors behavior-preserving unless the user explicitly asks for a behavior change.
+- Prefer replacing magic numbers such as `0`, `99`, and channel-count values with named constants when touching related code.
+- Keep changes small and easy to review; avoid unrelated rewrites.
+
+## Git Rules
+
+- Do not run `git merge`.
+- Do not rewrite or discard user changes unless the user explicitly requests it.
+- Do not commit, push, rebase, reset, or checkout branches unless the user explicitly asks.

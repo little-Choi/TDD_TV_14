@@ -1,0 +1,7 @@
+# Given: favorite at channel 99
+> FAVORITE_ADD
+# When: FAVORITE_NEXT from channel 0
+> FAVORITE_NEXT
+# Final: channel=99
+--- stdout ---
+현재 설정하는 채널 : 99

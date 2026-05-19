@@ -1,0 +1,4 @@
+# Given: channel 0
+# When: SEARCH from 0
+> SEARCH
+# Final: channel=0

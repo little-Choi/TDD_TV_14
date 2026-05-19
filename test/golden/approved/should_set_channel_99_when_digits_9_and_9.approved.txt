@@ -1,0 +1,7 @@
+# Given: initial channel 0
+# When: press 9, 9
+> 9
+> 9
+# Final: channel=99
+--- stdout ---
+현재 설정하는 채널 : 99

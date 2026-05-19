@@ -1,0 +1,6 @@
+# Given: channel 99
+# When: DOWN to 98
+> DOWN
+# Final: channel=98
+--- stdout ---
+현재 설정하는 채널 : 98
