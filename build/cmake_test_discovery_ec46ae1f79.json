@@ -1,0 +1,172 @@
+{
+  "tests": 32,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "TVControllerGoldenTest",
+      "tests": 32,
+      "testsuite": [
+        {
+          "name": "should_set_channel_1_when_digit_1_and_ok",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 48
+        },
+        {
+          "name": "should_set_channel_12_when_digits_1_and_2",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 56
+        },
+        {
+          "name": "should_set_channels_12_then_34_when_four_digits",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 64
+        },
+        {
+          "name": "should_set_channels_45_then_6_when_digits_4_5_6_and_ok",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 72
+        },
+        {
+          "name": "should_set_channel_7_when_digits_0_and_7",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 80
+        },
+        {
+          "name": "should_set_channel_99_when_digits_9_and_9",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 88
+        },
+        {
+          "name": "should_confirm_45_only_when_key_up_after_digits_4_5_6",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 96
+        },
+        {
+          "name": "should_add_favorite_when_current_channel_not_in_list",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 108
+        },
+        {
+          "name": "should_remove_favorite_when_current_channel_already_in_list",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 119
+        },
+        {
+          "name": "should_toggle_favorite_at_channel_0",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 134
+        },
+        {
+          "name": "should_toggle_favorite_at_channel_99",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 145
+        },
+        {
+          "name": "should_keep_other_favorites_when_removing_one",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 156
+        },
+        {
+          "name": "should_go_to_12_when_on_6_with_favorites_1_4_12_56",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 169
+        },
+        {
+          "name": "should_wrap_to_1_when_on_56_with_favorites_1_4_12_56",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 178
+        },
+        {
+          "name": "should_not_call_setch_when_favorite_list_empty",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 187
+        },
+        {
+          "name": "should_go_to_smallest_favorite_above_0_from_channel_0",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 197
+        },
+        {
+          "name": "should_wrap_to_1_from_channel_99_when_only_greater_is_none",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 206
+        },
+        {
+          "name": "should_invoke_seekch_when_search_pressed",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 216
+        },
+        {
+          "name": "should_store_search_results_for_navigation",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 226
+        },
+        {
+          "name": "should_search_from_channel_99",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 237
+        },
+        {
+          "name": "should_search_from_channel_0",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 246
+        },
+        {
+          "name": "should_deduplicate_duplicate_seek_results",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 255
+        },
+        {
+          "name": "should_go_to_7_and_5_when_up_and_down_from_6_without_search",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 267
+        },
+        {
+          "name": "should_wrap_to_0_when_up_from_99_without_search",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 275
+        },
+        {
+          "name": "should_wrap_to_99_when_down_from_0_without_search",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 283
+        },
+        {
+          "name": "should_go_to_1_when_up_from_0_without_search",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 291
+        },
+        {
+          "name": "should_go_to_98_when_down_from_99_without_search",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 299
+        },
+        {
+          "name": "should_go_to_14_and_4_when_up_down_from_6_on_search_list",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 308
+        },
+        {
+          "name": "should_go_to_4_and_14_when_up_down_from_15_off_search_list",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 318
+        },
+        {
+          "name": "should_wrap_up_from_14_to_4_on_search_list",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 327
+        },
+        {
+          "name": "should_wrap_down_from_4_to_14_on_search_list",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 336
+        },
+        {
+          "name": "should_navigate_from_0_using_search_list",
+          "file": "C:\\DEV\\TDD_TV_14\\test\\TVControllerGoldenTest.cpp",
+          "line": 345
+        }
+      ]
+    }
+  ]
+}
