@@ -149,18 +149,21 @@ TEST_F(TVControllerTest, should_add_favorite_when_current_channel_not_in_list) {
 }
 
 TEST_F(TVControllerTest, should_remove_favorite_when_current_channel_already_in_list) {
-    // Given: 10번 선호 등록 후 삭제(토글)
+    // Given: 10번 선호 등록
     givenCurrentChannel(10);
     EXPECT_CALL(mockTuner, getCurrentCH()).Times(::testing::AtLeast(1));
     whenPush(remoteKey::KEY_FAVORITE_ADD);
-    givenCurrentChannel(10);
-    whenPush(remoteKey::KEY_FAVORITE_ADD);
 
-    // When/Then: 등록 시 5번→10번, 삭제 후 5번에서 다음선호 시 setCH 없음
+    // When/Then: 등록 시 5번→10번
     givenCurrentChannel(5);
     thenExpectSetChannel(10);
     whenPush(remoteKey::KEY_FAVORITE_NEXT);
 
+    // Given: 10번 선호 삭제(토글)
+    givenCurrentChannel(10);
+    whenPush(remoteKey::KEY_FAVORITE_ADD);
+
+    // When/Then: 삭제 후 5번에서 다음선호 시 setCH 없음
     givenCurrentChannel(5);
     EXPECT_CALL(mockTuner, getCurrentCH()).Times(::testing::AtLeast(1));
     EXPECT_CALL(mockTuner, setCH(::testing::_)).Times(0);
