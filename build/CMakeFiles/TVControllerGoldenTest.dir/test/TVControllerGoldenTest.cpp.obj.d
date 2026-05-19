@@ -255,12 +255,16 @@ CMakeFiles/TVControllerGoldenTest.dir/test/TVControllerGoldenTest.cpp.obj: \
  C:/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++io.h \
  C:/mingw64/include/c++/15.2.0/bits/fstream.tcc \
  C:/DEV/TDD_TV_14/test/fake/FakeTuner.h C:/DEV/TDD_TV_14/include/Tuner.h \
- C:/DEV/TDD_TV_14/include/TVController.h C:/DEV/TDD_TV_14/include/Tuner.h \
- C:/DEV/TDD_TV_14/include/remoteKey.h \
+ C:/DEV/TDD_TV_14/include/TVController.h \
+ C:/DEV/TDD_TV_14/include/ChannelPolicy.h \
+ C:/DEV/TDD_TV_14/include/DigitInputBuffer.h \
+ C:/DEV/TDD_TV_14/include/remoteKey.h C:/DEV/TDD_TV_14/include/Tuner.h \
  C:/mingw64/include/c++/15.2.0/algorithm \
  C:/mingw64/include/c++/15.2.0/bits/stl_algo.h \
  C:/mingw64/include/c++/15.2.0/bits/algorithmfwd.h \
  C:/mingw64/include/c++/15.2.0/bits/stl_heap.h \
  C:/mingw64/include/c++/15.2.0/bits/uniform_int_dist.h \
  C:/mingw64/include/c++/15.2.0/pstl/glue_algorithm_defs.h \
+ C:/mingw64/include/c++/15.2.0/unordered_set \
+ C:/mingw64/include/c++/15.2.0/bits/unordered_set.h \
  C:/DEV/TDD_TV_14/include/remoteKey.h

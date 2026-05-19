@@ -11,179 +11,256 @@
 #ifndef TV_CONTROLLER_H
 #define TV_CONTROLLER_H
 
+#include "ChannelPolicy.h"
+#include "DigitInputBuffer.h"
 #include "Tuner.h"
 #include "remoteKey.h"
 #include <algorithm>
 #include <iostream>
+#include <optional>
 #include <set>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
+
+namespace tv {
+
+inline int stepLinearChannel(int current, int delta) {
+    const int next = current + delta;
+    if (next > kMaxChannel) {
+        return kMinChannel;
+    }
+    if (next < kMinChannel) {
+        return kMaxChannel;
+    }
+    return next;
+}
+
+enum class NavStep { Up, Down };
+
+inline int navStepDelta(NavStep step, std::size_t listSize) {
+    return step == NavStep::Up ? 1 : static_cast<int>(listSize) - 1;
+}
+
+struct SearchScanState {
+    std::string startCurrent;
+    bool hasStartCurrent = false;
+    std::string firstReturned;
+    bool hasFirst = false;
+};
+
+inline bool shouldStopSearch(const SearchScanState& state,
+                             const std::string& chStr,
+                             std::size_t collectedCount) {
+    if (chStr.empty()) {
+        return true;
+    }
+    if (!state.hasFirst) {
+        return false;
+    }
+    if (state.hasStartCurrent && chStr == state.startCurrent) {
+        return true;
+    }
+    if (chStr == state.firstReturned && collectedCount > 1) {
+        return true;
+    }
+    return false;
+}
+
+struct IChannelStepPolicy {
+    virtual ~IChannelStepPolicy() = default;
+    virtual int step(int current, int direction) const = 0;
+};
+
+struct LinearStepPolicy : IChannelStepPolicy {
+    int step(int current, int direction) const override {
+        return stepLinearChannel(current, direction);
+    }
+};
+
+struct SearchListStepPolicy : IChannelStepPolicy {
+    explicit SearchListStepPolicy(const std::vector<int>& searchResults)
+        : searchResults_(searchResults) {}
+
+    int step(int current, int direction) const override {
+        if (searchResults_.empty()) {
+            return current;
+        }
+
+        const NavStep navStep = direction > 0 ? NavStep::Up : NavStep::Down;
+        const auto it = std::find(searchResults_.begin(), searchResults_.end(), current);
+        if (it == searchResults_.end()) {
+            return navStep == NavStep::Up ? searchResults_.front() : searchResults_.back();
+        }
+
+        const auto index = static_cast<std::size_t>(it - searchResults_.begin());
+        const auto size = searchResults_.size();
+        const int delta = navStepDelta(navStep, size);
+        const auto nextIndex = (index + size + static_cast<std::size_t>(delta)) % size;
+        return searchResults_[nextIndex];
+    }
+
+private:
+    const std::vector<int>& searchResults_;
+};
+
+} // namespace tv
 
 class TVController {
 private:
-    Tuner* tuner;
-    std::string processingCH;
-    std::set<int> favorites;
-    std::vector<int> searchResults;
-    int navigationBase;
+    Tuner* tuner_;
+    DigitInputBuffer digitBuffer_;
+    std::set<int> favorites_;
+    std::vector<int> searchResults_;
+    std::optional<int> navigationBase_;
+    tv::LinearStepPolicy linearPolicy_;
 
     static bool isDigitKey(remoteKey key) {
         return key >= remoteKey::KEY_0 && key <= remoteKey::KEY_9;
     }
 
-    int getCurrentChannel() const {
-        return std::stoi(tuner->getCurrentCH());
+    [[nodiscard]] int parseTunerChannel() const {
+        return std::stoi(tuner_->getCurrentCH());
     }
 
     void setTunerCh(int channel) {
-        processingCH.clear();
+        digitBuffer_.clear();
         std::cout << "현재 설정하는 채널 : " << channel << std::endl;
-        tuner->setCH(std::to_string(channel));
+        tuner_->setCH(std::to_string(channel));
     }
 
     void clearInputBuffer() {
-        processingCH.clear();
-        navigationBase = -1;
+        digitBuffer_.clear();
+        navigationBase_.reset();
+    }
+
+    void commitBufferedChannel() {
+        if (const auto ch = digitBuffer_.tryTakeChannel()) {
+            setTunerCh(*ch);
+        }
     }
 
     void handleDigit(remoteKey key) {
-        processingCH += to_string(key);
-        if (processingCH.length() >= 2) {
-            setTunerCh(std::stoi(processingCH));
+        digitBuffer_.append(key);
+        if (digitBuffer_.readyToCommit()) {
+            commitBufferedChannel();
         }
     }
 
-    void handleOk() {
-        if (!processingCH.empty()) {
-            setTunerCh(std::stoi(processingCH));
-        }
-    }
+    void handleOk() { commitBufferedChannel(); }
 
     void performSearch() {
-        searchResults.clear();
-        navigationBase = -1;
+        searchResults_.clear();
+        navigationBase_.reset();
 
-        const std::string startCurrent = tuner->getCurrentCH();
-        const bool hasStartCurrent = !startCurrent.empty();
+        tv::SearchScanState scan;
+        scan.startCurrent = tuner_->getCurrentCH();
+        scan.hasStartCurrent = !scan.startCurrent.empty();
 
-        std::string firstReturned;
-        bool hasFirst = false;
+        std::unordered_set<int> seen;
 
         while (true) {
-            const std::string chStr = tuner->seekCH();
-            if (chStr.empty()) {
+            const std::string chStr = tuner_->seekCH();
+            if (tv::shouldStopSearch(scan, chStr, searchResults_.size())) {
                 break;
             }
 
-            if (!hasFirst) {
-                firstReturned = chStr;
-                hasFirst = true;
-                searchResults.push_back(std::stoi(chStr));
+            if (!scan.hasFirst) {
+                scan.firstReturned = chStr;
+                scan.hasFirst = true;
+                const int ch = std::stoi(chStr);
+                searchResults_.push_back(ch);
+                seen.insert(ch);
                 continue;
             }
 
-            if (hasStartCurrent && chStr == startCurrent) {
-                break;
-            }
-
-            if (chStr == firstReturned && searchResults.size() > 1) {
-                break;
-            }
-
             const int ch = std::stoi(chStr);
-            if (std::find(searchResults.begin(), searchResults.end(), ch) == searchResults.end()) {
-                searchResults.push_back(ch);
+            if (seen.insert(ch).second) {
+                searchResults_.push_back(ch);
             }
         }
 
-        std::sort(searchResults.begin(), searchResults.end());
+        std::sort(searchResults_.begin(), searchResults_.end());
     }
 
     void toggleFavorite() {
-        const int current = getCurrentChannel();
-        if (favorites.count(current) > 0) {
-            favorites.erase(current);
+        const int current = parseTunerChannel();
+        if (const auto it = favorites_.find(current); it != favorites_.end()) {
+            favorites_.erase(it);
         } else {
-            favorites.insert(current);
+            favorites_.insert(current);
         }
     }
 
     void goToNextFavorite() {
-        const int current = getCurrentChannel();
-        if (favorites.empty()) {
+        const int current = parseTunerChannel();
+        if (favorites_.empty()) {
             return;
         }
 
-        auto it = favorites.upper_bound(current);
-        if (it == favorites.end()) {
-            setTunerCh(*favorites.begin());
-        } else {
-            setTunerCh(*it);
-        }
+        const auto it = favorites_.upper_bound(current);
+        const int target = (it == favorites_.end()) ? *favorites_.begin() : *it;
+        setTunerCh(target);
     }
 
-    void navigateSearchList(int current, int direction) {
-        if (searchResults.empty()) {
-            return;
-        }
+    struct NavigationContext {
+        int current;
+        std::optional<int> base;
+    };
 
-        const auto it = std::find(searchResults.begin(), searchResults.end(), current);
-        if (it == searchResults.end()) {
-            if (direction > 0) {
-                setTunerCh(searchResults.front());
-            } else {
-                setTunerCh(searchResults.back());
-            }
-            return;
+    [[nodiscard]] NavigationContext resolveNavigationContext() const {
+        if (navigationBase_) {
+            return {*navigationBase_, navigationBase_};
         }
-
-        const auto index = static_cast<std::size_t>(it - searchResults.begin());
-        const auto size = searchResults.size();
-        std::size_t nextIndex;
-        if (direction > 0) {
-            nextIndex = (index + 1) % size;
-        } else {
-            nextIndex = (index + size - 1) % size;
-        }
-        setTunerCh(searchResults[nextIndex]);
-    }
-
-    int resolveNavigationChannel() const {
-        if (navigationBase >= 0) {
-            return navigationBase;
-        }
-        return getCurrentChannel();
+        return {parseTunerChannel(), std::nullopt};
     }
 
     void channelUp() {
-        const int current = getCurrentChannel();
-        navigationBase = current;
+        const int current = parseTunerChannel();
+        navigationBase_ = current;
 
-        if (!searchResults.empty()) {
-            navigateSearchList(current, 1);
-        } else if (current == 99) {
-            setTunerCh(0);
-        } else {
-            setTunerCh(current + 1);
-        }
+        const tv::SearchListStepPolicy searchPolicy(searchResults_);
+        const tv::IChannelStepPolicy& policy =
+            searchResults_.empty() ? static_cast<const tv::IChannelStepPolicy&>(linearPolicy_)
+                                   : static_cast<const tv::IChannelStepPolicy&>(searchPolicy);
+        setTunerCh(policy.step(current, +1));
     }
 
     void channelDown() {
-        const int current = resolveNavigationChannel();
-        navigationBase = -1;
+        const NavigationContext ctx = resolveNavigationContext();
+        navigationBase_.reset();
 
-        if (!searchResults.empty()) {
-            navigateSearchList(current, -1);
-        } else if (current == 0) {
-            setTunerCh(99);
-        } else {
-            setTunerCh(current - 1);
+        const tv::SearchListStepPolicy searchPolicy(searchResults_);
+        const tv::IChannelStepPolicy& policy =
+            searchResults_.empty() ? static_cast<const tv::IChannelStepPolicy&>(linearPolicy_)
+                                   : static_cast<const tv::IChannelStepPolicy&>(searchPolicy);
+        setTunerCh(policy.step(ctx.current, -1));
+    }
+
+    using Handler = void (TVController::*)();
+
+    static const std::unordered_map<remoteKey, Handler>& handlerTable() {
+        static const std::unordered_map<remoteKey, Handler> table = {
+            {remoteKey::KEY_UP, &TVController::channelUp},
+            {remoteKey::KEY_DOWN, &TVController::channelDown},
+            {remoteKey::KEY_SEARCH, &TVController::performSearch},
+            {remoteKey::KEY_FAVORITE_ADD, &TVController::toggleFavorite},
+            {remoteKey::KEY_FAVORITE_NEXT, &TVController::goToNextFavorite},
+        };
+        return table;
+    }
+
+    void dispatchNonDigitKey(remoteKey key) {
+        const auto& table = handlerTable();
+        const auto it = table.find(key);
+        if (it != table.end()) {
+            (this->*(it->second))();
         }
     }
 
 public:
-    explicit TVController(Tuner* tuner)
-        : tuner(tuner), processingCH(""), navigationBase(-1) {}
+    explicit TVController(Tuner* tuner) : tuner_(tuner) {}
 
     void pushButton(remoteKey key) {
         if (isDigitKey(key)) {
@@ -196,29 +273,11 @@ public:
             return;
         }
 
-        if (!processingCH.empty()) {
+        if (!digitBuffer_.empty()) {
             clearInputBuffer();
         }
 
-        switch (key) {
-            case remoteKey::KEY_UP:
-                channelUp();
-                break;
-            case remoteKey::KEY_DOWN:
-                channelDown();
-                break;
-            case remoteKey::KEY_SEARCH:
-                performSearch();
-                break;
-            case remoteKey::KEY_FAVORITE_ADD:
-                toggleFavorite();
-                break;
-            case remoteKey::KEY_FAVORITE_NEXT:
-                goToNextFavorite();
-                break;
-            default:
-                break;
-        }
+        dispatchNonDigitKey(key);
     }
 };
 
