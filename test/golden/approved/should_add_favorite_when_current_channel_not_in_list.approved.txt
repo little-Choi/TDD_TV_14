@@ -1,0 +1,7 @@
+# Given: channel 10, empty favorites
+# When: FAVORITE_ADD then FAVORITE_NEXT from channel 5
+> FAVORITE_ADD
+> FAVORITE_NEXT
+# Final: channel=10
+--- stdout ---
+현재 설정하는 채널 : 10

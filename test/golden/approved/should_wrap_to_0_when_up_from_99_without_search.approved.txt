@@ -1,0 +1,6 @@
+# Given: channel 99
+# When: UP
+> UP
+# Final: channel=0
+--- stdout ---
+현재 설정하는 채널 : 0

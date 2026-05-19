@@ -1,0 +1,4 @@
+# Given: channel 99
+# When: SEARCH from 99
+> SEARCH
+# Final: channel=99

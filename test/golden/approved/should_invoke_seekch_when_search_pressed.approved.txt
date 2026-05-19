@@ -1,0 +1,4 @@
+# Given: seek returns 5 then end
+# When: SEARCH
+> SEARCH
+# Final: channel=5

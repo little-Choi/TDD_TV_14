@@ -58,4 +58,20 @@
       * 저장된 채널이 4 6 14 인 경우  
         * 채널 6을 시청중, 채널 업을 누르면 14로 변경, 다운을 누르면 4로 변경된다.  
         * 채널 15를 시청중, 채널 업을 누르면 4로 변경, 다운을 누르면 14로 변경된다.  
-  
+
+## Golden Master (회귀) 테스트
+
+`TVControllerTest`는 Mock 기반 단위 테스트, `TVControllerGoldenTest`는 **stdout + 시나리오 트랜스크립트**를 `test/golden/approved/*.approved.txt`와 비교합니다.
+
+```powershell
+cmake -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build
+ctest --test-dir build --output-on-failure          # 전체 (단위 + golden)
+ctest --test-dir build -L golden --output-on-failure # golden만
+
+# 의도된 출력 변경 후 기준 파일 갱신
+cmake --build build --target update-golden
+```
+
+실패 시 diff: `test/golden/approved/` vs `test/golden/received/`
+

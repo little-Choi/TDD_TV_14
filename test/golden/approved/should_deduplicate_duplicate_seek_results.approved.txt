@@ -1,0 +1,7 @@
+# Given: duplicate seek 6,6,14,6
+> SEARCH
+# When: DOWN from channel 6
+> DOWN
+# Final: channel=14
+--- stdout ---
+현재 설정하는 채널 : 14

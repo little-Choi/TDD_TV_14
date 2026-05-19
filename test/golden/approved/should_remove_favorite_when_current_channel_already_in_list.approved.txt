@@ -1,0 +1,9 @@
+# Given: favorite 10 registered then removed
+> FAVORITE_ADD
+> FAVORITE_NEXT
+> FAVORITE_ADD
+# When: FAVORITE_NEXT from 5 after removal
+> FAVORITE_NEXT
+# Final: channel=5
+--- stdout ---
+현재 설정하는 채널 : 10

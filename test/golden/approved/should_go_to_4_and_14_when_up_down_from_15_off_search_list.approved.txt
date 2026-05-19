@@ -1,0 +1,9 @@
+# Given: search 4,6,14; current 15
+> SEARCH
+# When: UP then DOWN from 15
+> UP
+> DOWN
+# Final: channel=14
+--- stdout ---
+현재 설정하는 채널 : 6
+현재 설정하는 채널 : 14

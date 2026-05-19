@@ -1,0 +1,7 @@
+# Given: search list 4,6,14
+> SEARCH
+# When: UP from channel 6
+> UP
+# Final: channel=14
+--- stdout ---
+현재 설정하는 채널 : 14

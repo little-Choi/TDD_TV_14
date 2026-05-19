@@ -1,0 +1,7 @@
+# Given: search 4,6,14; current 4
+> SEARCH
+# When: DOWN wrap to 14
+> DOWN
+# Final: channel=14
+--- stdout ---
+현재 설정하는 채널 : 14

@@ -1,0 +1,8 @@
+# Given: channel 6
+# When: UP then DOWN
+> UP
+> DOWN
+# Final: channel=5
+--- stdout ---
+현재 설정하는 채널 : 7
+현재 설정하는 채널 : 5
