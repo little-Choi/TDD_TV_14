@@ -2,6 +2,10 @@
 
 namespace {
 
+constexpr int kMinChannel = 0;
+constexpr int kMaxChannel = 99;
+constexpr std::string::size_type kChannelInputDigits = 2;
+
 bool isNumberKey(remoteKey key) {
   switch (key) {
   case remoteKey::KEY_0:
@@ -27,8 +31,12 @@ bool isNumberKey(remoteKey key) {
   return false;
 }
 
+int toChannelNumber(const std::string &channel) { return std::stoi(channel); }
+
+std::string toChannelText(int channel) { return std::to_string(channel); }
+
 std::string normalizeChannel(const std::string &channel) {
-  return std::to_string(std::stoi(channel));
+  return toChannelText(toChannelNumber(channel));
 }
 
 } // namespace
@@ -36,48 +44,50 @@ std::string normalizeChannel(const std::string &channel) {
 TVController::TVController(Tuner *tuner) : tuner(tuner), processingCH("") {}
 
 void TVController::pushButton(remoteKey key) {
+  if (isNumberKey(key)) {
+    handleNumberKey(key);
+    return;
+  }
+
+  handleCommandKey(key);
+}
+
+bool TVController::handleCommandKey(remoteKey key) {
   if (key == remoteKey::KEY_OK) {
     setTunerCh();
-    return;
+    return true;
   }
 
-  if (key == remoteKey::KEY_FAVORITE_ADD) {
-    processingCH.clear();
-    toggleFavoriteChannel();
-    return;
+  void (TVController::*command)() = nullptr;
+  switch (key) {
+  case remoteKey::KEY_FAVORITE_ADD:
+    command = &TVController::toggleFavoriteChannel;
+    break;
+  case remoteKey::KEY_NEXT_FAVORITE:
+    command = &TVController::moveToNextFavoriteChannel;
+    break;
+  case remoteKey::KEY_CHANNEL_SEARCH:
+    command = &TVController::searchChannels;
+    break;
+  case remoteKey::KEY_CHANNEL_UP:
+    command = &TVController::moveChannelUp;
+    break;
+  case remoteKey::KEY_CHANNEL_DOWN:
+    command = &TVController::moveChannelDown;
+    break;
+  default:
+    return false;
   }
 
-  if (key == remoteKey::KEY_NEXT_FAVORITE) {
-    processingCH.clear();
-    moveToNextFavoriteChannel();
-    return;
-  }
+  processingCH.clear();
+  (this->*command)();
+  return true;
+}
 
-  if (key == remoteKey::KEY_CHANNEL_SEARCH) {
-    processingCH.clear();
-    searchChannels();
-    return;
-  }
-
-  if (key == remoteKey::KEY_CHANNEL_UP) {
-    processingCH.clear();
-    moveChannelUp();
-    return;
-  }
-
-  if (key == remoteKey::KEY_CHANNEL_DOWN) {
-    processingCH.clear();
-    moveChannelDown();
-    return;
-  }
-
-  if (!isNumberKey(key)) {
-    return;
-  }
-
+void TVController::handleNumberKey(remoteKey key) {
   processingCH += to_string(key);
 
-  if (processingCH.length() == 2) {
+  if (processingCH.length() == kChannelInputDigits) {
     setTunerCh();
   }
 }
@@ -92,7 +102,7 @@ void TVController::setTunerCh() {
 }
 
 void TVController::toggleFavoriteChannel() {
-  int currentChannel = std::stoi(tuner->getCurrentCH());
+  int currentChannel = toChannelNumber(tuner->getCurrentCH());
   auto found = favoriteChannels.find(currentChannel);
 
   if (found == favoriteChannels.end()) {
@@ -108,14 +118,14 @@ void TVController::moveToNextFavoriteChannel() {
     return;
   }
 
-  int currentChannel = std::stoi(tuner->getCurrentCH());
+  int currentChannel = toChannelNumber(tuner->getCurrentCH());
   auto nextChannel = favoriteChannels.upper_bound(currentChannel);
 
   if (nextChannel == favoriteChannels.end()) {
     nextChannel = favoriteChannels.begin();
   }
 
-  tuner->setCH(std::to_string(*nextChannel));
+  tuner->setCH(toChannelText(*nextChannel));
 }
 
 void TVController::searchChannels() {
@@ -127,15 +137,17 @@ void TVController::searchChannels() {
       break;
     }
 
-    searchedChannels.insert(std::stoi(channel));
+    searchedChannels.insert(toChannelNumber(channel));
   }
 }
 
 void TVController::moveChannelUp() {
-  int currentChannel = std::stoi(tuner->getCurrentCH());
+  int currentChannel = toChannelNumber(tuner->getCurrentCH());
 
   if (searchedChannels.empty()) {
-    tuner->setCH(std::to_string((currentChannel + 1) % 100));
+    int nextChannel =
+        currentChannel == kMaxChannel ? kMinChannel : currentChannel + 1;
+    tuner->setCH(toChannelText(nextChannel));
     return;
   }
 
@@ -144,14 +156,16 @@ void TVController::moveChannelUp() {
     nextChannel = searchedChannels.begin();
   }
 
-  tuner->setCH(std::to_string(*nextChannel));
+  tuner->setCH(toChannelText(*nextChannel));
 }
 
 void TVController::moveChannelDown() {
-  int currentChannel = std::stoi(tuner->getCurrentCH());
+  int currentChannel = toChannelNumber(tuner->getCurrentCH());
 
   if (searchedChannels.empty()) {
-    tuner->setCH(std::to_string((currentChannel + 99) % 100));
+    int previousChannel =
+        currentChannel == kMinChannel ? kMaxChannel : currentChannel - 1;
+    tuner->setCH(toChannelText(previousChannel));
     return;
   }
 
@@ -161,5 +175,5 @@ void TVController::moveChannelDown() {
   }
 
   --previousChannel;
-  tuner->setCH(std::to_string(*previousChannel));
+  tuner->setCH(toChannelText(*previousChannel));
 }

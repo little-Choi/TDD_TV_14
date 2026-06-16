@@ -47,10 +47,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = C:\mingw64\bin\cmake.exe
+CMAKE_COMMAND = "C:\Program Files\CMake\bin\cmake.exe"
 
 # The command to remove a file.
-RM = C:\mingw64\bin\cmake.exe -E rm -f
+RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -67,7 +67,7 @@ CMAKE_BINARY_DIR = C:\DEV\TDD_TV_14\build
 # Special rule for the target test
 test:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
-	C:\mingw64\bin\ctest.exe $(ARGS)
+	"C:\Program Files\CMake\bin\ctest.exe" $(ARGS)
 .PHONY : test
 
 # Special rule for the target test
@@ -76,8 +76,8 @@ test/fast: test
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
-	C:\mingw64\bin\cmake.exe -E echo "No interactive CMake dialog available."
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
+	"C:\Program Files\CMake\bin\cmake-gui.exe" -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -87,7 +87,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake to regenerate build system..."
-	C:\mingw64\bin\cmake.exe --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	"C:\Program Files\CMake\bin\cmake.exe" --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -106,37 +106,37 @@ list_install_components/fast: list_install_components
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	C:\mingw64\bin\cmake.exe -P cmake_install.cmake
+	"C:\Program Files\CMake\bin\cmake.exe" -P cmake_install.cmake
 .PHONY : install
 
 # Special rule for the target install
 install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	C:\mingw64\bin\cmake.exe -P cmake_install.cmake
+	"C:\Program Files\CMake\bin\cmake.exe" -P cmake_install.cmake
 .PHONY : install/fast
 
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	C:\mingw64\bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local
 
 # Special rule for the target install/local
 install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	C:\mingw64\bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	C:\mingw64\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip
 
 # Special rule for the target install/strip
 install/strip/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	C:\mingw64\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
 # The main all target
@@ -197,6 +197,19 @@ TVControllerTest/fast:
 .PHONY : TVControllerTest/fast
 
 #=============================================================================
+# Target rules for targets named TVControllerApprovalTest
+
+# Build rule for target.
+TVControllerApprovalTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 TVControllerApprovalTest
+.PHONY : TVControllerApprovalTest
+
+# fast build rule for target.
+TVControllerApprovalTest/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TVControllerApprovalTest.dir\build.make CMakeFiles/TVControllerApprovalTest.dir/build
+.PHONY : TVControllerApprovalTest/fast
+
+#=============================================================================
 # Target rules for targets named gmock
 
 # Build rule for target.
@@ -254,6 +267,7 @@ src/TVController.obj: src/TVController.cpp.obj
 # target to build an object file
 src/TVController.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TVControllerTest.dir\build.make CMakeFiles/TVControllerTest.dir/src/TVController.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TVControllerApprovalTest.dir\build.make CMakeFiles/TVControllerApprovalTest.dir/src/TVController.cpp.obj
 .PHONY : src/TVController.cpp.obj
 
 src/TVController.i: src/TVController.cpp.i
@@ -262,6 +276,7 @@ src/TVController.i: src/TVController.cpp.i
 # target to preprocess a source file
 src/TVController.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TVControllerTest.dir\build.make CMakeFiles/TVControllerTest.dir/src/TVController.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TVControllerApprovalTest.dir\build.make CMakeFiles/TVControllerApprovalTest.dir/src/TVController.cpp.i
 .PHONY : src/TVController.cpp.i
 
 src/TVController.s: src/TVController.cpp.s
@@ -270,7 +285,32 @@ src/TVController.s: src/TVController.cpp.s
 # target to generate assembly for a file
 src/TVController.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TVControllerTest.dir\build.make CMakeFiles/TVControllerTest.dir/src/TVController.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TVControllerApprovalTest.dir\build.make CMakeFiles/TVControllerApprovalTest.dir/src/TVController.cpp.s
 .PHONY : src/TVController.cpp.s
+
+test/TVControllerApprovalTest.obj: test/TVControllerApprovalTest.cpp.obj
+.PHONY : test/TVControllerApprovalTest.obj
+
+# target to build an object file
+test/TVControllerApprovalTest.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TVControllerApprovalTest.dir\build.make CMakeFiles/TVControllerApprovalTest.dir/test/TVControllerApprovalTest.cpp.obj
+.PHONY : test/TVControllerApprovalTest.cpp.obj
+
+test/TVControllerApprovalTest.i: test/TVControllerApprovalTest.cpp.i
+.PHONY : test/TVControllerApprovalTest.i
+
+# target to preprocess a source file
+test/TVControllerApprovalTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TVControllerApprovalTest.dir\build.make CMakeFiles/TVControllerApprovalTest.dir/test/TVControllerApprovalTest.cpp.i
+.PHONY : test/TVControllerApprovalTest.cpp.i
+
+test/TVControllerApprovalTest.s: test/TVControllerApprovalTest.cpp.s
+.PHONY : test/TVControllerApprovalTest.s
+
+# target to generate assembly for a file
+test/TVControllerApprovalTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\TVControllerApprovalTest.dir\build.make CMakeFiles/TVControllerApprovalTest.dir/test/TVControllerApprovalTest.cpp.s
+.PHONY : test/TVControllerApprovalTest.cpp.s
 
 test/TVControllerTest.obj: test/TVControllerTest.cpp.obj
 .PHONY : test/TVControllerTest.obj
@@ -333,6 +373,7 @@ help:
 	@echo ... list_install_components
 	@echo ... rebuild_cache
 	@echo ... test
+	@echo ... TVControllerApprovalTest
 	@echo ... TVControllerTest
 	@echo ... TunerTest
 	@echo ... gmock
@@ -342,6 +383,9 @@ help:
 	@echo ... src/TVController.obj
 	@echo ... src/TVController.i
 	@echo ... src/TVController.s
+	@echo ... test/TVControllerApprovalTest.obj
+	@echo ... test/TVControllerApprovalTest.i
+	@echo ... test/TVControllerApprovalTest.s
 	@echo ... test/TVControllerTest.obj
 	@echo ... test/TVControllerTest.i
 	@echo ... test/TVControllerTest.s

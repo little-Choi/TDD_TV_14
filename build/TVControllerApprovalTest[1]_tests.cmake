@@ -1,0 +1,3 @@
+add_test([=[TVControllerApprovalTest.RemoteControlBehaviorMatchesApprovedOutput]=]  C:/DEV/TDD_TV_14/build/TVControllerApprovalTest.exe [==[--gtest_filter=TVControllerApprovalTest.RemoteControlBehaviorMatchesApprovedOutput]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[TVControllerApprovalTest.RemoteControlBehaviorMatchesApprovedOutput]=]  PROPERTIES DEF_SOURCE_LINE [==[C:\DEV\TDD_TV_14\test\TVControllerApprovalTest.cpp:176]==] WORKING_DIRECTORY C:/DEV/TDD_TV_14/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  TVControllerApprovalTest_TESTS TVControllerApprovalTest.RemoteControlBehaviorMatchesApprovedOutput)

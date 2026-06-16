@@ -6,4 +6,5 @@
 # testing this directory and lists subdirectories to be tested as well.
 include("C:/DEV/TDD_TV_14/build/TunerTest[1]_include.cmake")
 include("C:/DEV/TDD_TV_14/build/TVControllerTest[1]_include.cmake")
+include("C:/DEV/TDD_TV_14/build/TVControllerApprovalTest[1]_include.cmake")
 subdirs("_deps/googletest-build")

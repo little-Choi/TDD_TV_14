@@ -23,6 +23,8 @@ private:
     std::set<int> favoriteChannels;
     std::set<int> searchedChannels;
 
+    bool handleCommandKey(remoteKey key);
+    void handleNumberKey(remoteKey key);
     void setTunerCh();
     void toggleFavoriteChannel();
     void moveToNextFavoriteChannel();

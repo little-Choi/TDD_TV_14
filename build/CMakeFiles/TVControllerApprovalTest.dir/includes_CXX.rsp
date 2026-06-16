@@ -1,0 +1,1 @@
+-IC:/DEV/TDD_TV_14/include -isystem "C:/DEV/TDD_TV_14/build/_deps/googletest-src/googletest/include" -isystem "C:/DEV/TDD_TV_14/build/_deps/googletest-src/googletest"
